@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Payco 결제 데모</string>
+    <string name="install_application_message">앱을 설치해 주세요.</string>
+</resources>
