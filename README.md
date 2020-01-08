@@ -1,8 +1,7 @@
 # 안드로이드 PAYCO 결제 데모
 
-PAYCO APP 결제 연동을 위한 데모 앱과 가이드 입니다.
-* Github: https://github.com/nhn/Payco_TechSupport.aos_aos
-* 작성: 앱기술 개발팀 이정재
+PAYCO APP 결제 연동을 위한 안드로이드 데모 앱과 가이드 입니다.
+* Github: https://github.com/nhn/Payco_TechSupport.app_aos
 
 ## 안드로이드 적용 가이드
 
