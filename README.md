@@ -30,6 +30,19 @@ PAYCO APP 결제 연동을 위한 안드로이드 데모 앱과 가이드 입니
     </application>
     ```
 
+3. targetSdkVersion=30인 앱에서는 <queris> 속성을 설정합니다.
+
+    * https://developer.android.com/training/basics/intents/package-visibility
+
+    ```xml
+    <queries>
+        <package android:name="com.nhnent.payapp" />
+    </queries>
+    ```
+
+    안드로이드11 기기 & targetSdkVersion=30인 앱에서 페이코앱으로 연결을 위해서는 위 속성을 설정해야합니다.
+
+
 ### MainActivity
 
 데모 예제에서 `MainActivity`는 상점의 url을 표시하는 `WebView`를 포함한 액티비티입니다. 이 액티비티는 PAYCO APP 결제 연동을 할 수 있도록 `WebView` 인스턴스를 설정하는 방법을 다룹니다.
