@@ -1,6 +1,7 @@
 package com.payco.paycopaymentdemo
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -151,26 +152,26 @@ class MainActivity : AppCompatActivity() {
      */
     private fun handleIntentShouldOverrideUrlLoading(url: String): Boolean {
         if (url.startsWith("intent")) {
-            try {
-                val intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
-                if (intent.resolveActivity(packageManager) != null) {
-                    // 처리할 수 있는 패키지(실행할 수 있는 앱)이 있을 경우
-                    startActivity(intent)
-                    return true
-                }
 
-                // 처리할 수 없는 패키지일 경우 플레이 스토어로 이동
-                // 단 intent의 getPackage() 메소드로 패키지 정보가 가져올 수 있을 때에만 플레이 스토어로
-                // 이동할 수 있습니다.
-                val marketIntent = Intent(Intent.ACTION_VIEW)
-                marketIntent.data = Uri.parse("market://details?id=" + intent.getPackage())
-                if (marketIntent.resolveActivity(packageManager) != null) {
-                    startActivity(marketIntent)
-                    return true
-                }
+            val schemeIntent = try {
+                Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
             } catch (uriEx: URISyntaxException) {
                 Log.e(TAG, "URISyntaxException=[" + uriEx.message + "]")
                 return false
+            }
+
+            try {
+                startActivity(schemeIntent)
+                return true
+            } catch (actNotEx: ActivityNotFoundException) {
+                // 처리할 수 없는 패키지일 경우 플레이 스토어로 이동.
+                // 단, intent의 getPackage() 메소드로 패키지 정보가 가져올 수 있을 때에만 플레이 스토어로 이동할 수 있습니다.
+                val packageName = schemeIntent.getPackage()
+                if (!packageName.isNullOrEmpty()) {
+                    val marketIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+                    startActivity(marketIntent)
+                    return true
+                }
             }
         }
 
