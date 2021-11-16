@@ -30,22 +30,28 @@ PAYCO APP 결제 연동을 위한 안드로이드 데모 앱과 가이드 입니
     </application>
     ```
 
-3. targetSdkVersion=30인 앱에서는 `<queris>` 속성을 설정합니다.
+3. targetSdkVersion=30 '패키지 공개상태' 변경 관련
 
-    * https://developer.android.com/training/basics/intents/package-visibility
+    * https://developer.android.com/training/package-visibility
+
+    targetSdkVersion=30인 앱에서는 '패키지 공개상태' 정책 변경으로 아래 메서드들이 기대하는 동작을 수행하지 못할 수 있습니다.
+
+    ```
+    PackageManager.getPackageInfo()
+    PackageManager.queryIntentActivities()
+    PackageManager.getInstalledPackages()
+    PackageManager.getInstalledApplications()
+    Intent.resolveActivity()
+    ```
+
+    샘플앱의 shouldOverrideUrlLoading() 메서드에 구현된 방식과 동일하게 구현하기 어려운 경우,
+    manifest 파일에서 아래와 같이 패키지명 선언이 필요합니다.
 
     ```xml
     <queries>
         <package android:name="com.nhnent.payapp" />
     </queries>
     ```
-
-    안드로이드11 기기 & targetSdkVersion=30인 앱에서 위 속성 선언이 없는 경우,
-    페이코 앱이 설치되어있는 기기에서 페이코 결제 링크를 클릭하면 연결할 수 없는 링크로 판단하여 페이코 앱 설치를 안내하는 스토어로 링크가 열립니다.
-
-    따라서, targetSdkVersion=30인 앱에서는 반드시 위 속성을 설정해야합니다.
-
-
 
 ### MainActivity
 
